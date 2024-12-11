@@ -1,7 +1,7 @@
 #include <SoftwareSerial.h>
-#include <EEPROM.h>  // Include the EEPROM library
+#include <EEPROM.h>  
 
-// Define SoftwareSerial pins for communication with Board 4
+// SoftwareSerial pins for communication with Board 4
 SoftwareSerial board4Serial(10, 11); // RX, TX
 
 // Variables to store last received values
@@ -54,30 +54,29 @@ void loop() {
       String heatingStatus;
       String lightStatus;
 
-      // Check temperature conditions
-      if (temp > 27.50) {
-        heatingStatus = "Overheating";  // High temperature condition
+
+      if (temp > 28.0) {
+        heatingStatus = "Overheating";  // High temperature 
       } else {
         heatingStatus = "Temperature Normal";
       }
 
       // Check light intensity conditions
       if (ldrValue < 50) {
-        lightStatus = "Dark";  // Low light condition
+        lightStatus = "Dark";  // Low light 
       } else {
         lightStatus = "Bright";
       }
 
       // Step 4: Send processed data to Board 3
-      Serial.println("Heating: " + heatingStatus);       // Send heating status to Board 3
-      Serial.println("Light: " + lightStatus);           // Send light status to Board 3
+      Serial.println("Heating: " + heatingStatus);       
+      Serial.println("Light: " + lightStatus);           
 
-      // Step 5: Forward full raw data to Board 4 for display
+      // Step 5: Forward data to Board 4 for display
       String displayData = "Temp: " + String(temp) + " °C, Humidity: " + String(humidity) + 
                            " %, Light: " + String(ldrValue) + " lux";
-      board4Serial.println(displayData);                // Send full data to Board 4
+      board4Serial.println(displayData);                
 
-      // Optional: For logging (can be removed if unnecessary)
       Serial.println("Sent to Board 4: " + displayData);
 
       // Step 6: Update the last received values and store them in EEPROM
@@ -86,11 +85,11 @@ void loop() {
       lastLdrValue = ldrValue;
 
       // Save to EEPROM
-      EEPROM.write(EEPROM_TEMP_ADDR, (int)temp); // Store temperature in EEPROM
-      EEPROM.write(EEPROM_HUMIDITY_ADDR, (int)humidity); // Store humidity in EEPROM
-      EEPROM.write(EEPROM_LDR_ADDR, (int)ldrValue); // Store LDR value in EEPROM
+      EEPROM.write(EEPROM_TEMP_ADDR, (int)temp); 
+      EEPROM.write(EEPROM_HUMIDITY_ADDR, (int)humidity); 
+      EEPROM.write(EEPROM_LDR_ADDR, (int)ldrValue); 
     } else {
-      // Optional: Log when no significant change is detected
+      
       Serial.println("No significant change in data.");
     }
   }
