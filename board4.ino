@@ -26,7 +26,7 @@ void loop() {
     lcd.clear();
 
     if (receivedData.startsWith("Temp:")) {
-      // Parse the data to extract temperature, humidity, and LDR values
+
       int tempStart = receivedData.indexOf(':') + 2;
       int tempEnd = receivedData.indexOf(" °C");
       String tempValue = receivedData.substring(tempStart, tempEnd);
@@ -38,20 +38,20 @@ void loop() {
       int ldrStart = receivedData.indexOf("Light:") + 7;
       String ldrValue = receivedData.substring(ldrStart);
 
-      // Display parsed values on the LCD
+      // Display values on the LCD
       lcd.setCursor(0, 0);
       lcd.print("Temp: ");
       lcd.print(tempValue);
-      lcd.print("C");
+      lcd.print("C");  //Display temperature
 
       lcd.setCursor(0, 1);
       lcd.print("H: ");
       lcd.print(humValue, 1);  // Display humidity with 1 decimal point
 
-      // Ensure no extra values after the LDR (light) value
-      lcd.setCursor(9, 1);  // Adjust for space
+  
+      lcd.setCursor(9, 1);  
       lcd.print("L: ");
-      lcd.print(ldrValue.substring(0, ldrValue.indexOf(" ")));  // Only display the numeric LDR value
+      lcd.print(ldrValue.substring(0, ldrValue.indexOf(" ")));  //Didplay light intensity
     }
   }
 }
